@@ -5,7 +5,6 @@
 #import "pymdownx-details.typ": details
 
 #import "@preview/tablex:0.0.8": tablex
-#import "@preview/tiaoma:0.2.0"
 #import "@preview/mitex:0.2.3": mi, mitex
 /* END imports */
 
@@ -29,7 +28,7 @@
         }
       }
 
-      text(9pt, number-width: "tabular")[
+      text(number-width: "tabular")[
         #emph[
           #counter(heading).display(sect-number)
           #h(1em)
@@ -48,7 +47,7 @@
         return none
       }
 
-      text(9pt, number-width: "tabular")[
+      text(number-width: "tabular")[
         #counter(page).display("1")
         #h(1fr)
         第#counter(heading.where(level: 1)).display("一")章
@@ -67,7 +66,7 @@
   block(
     stroke: (left: (thickness: 4pt, paint: luma(50%), cap: "square")),
     inset: (left: 2em),
-    spacing: 1.6em,
+    spacing: .6em,
     content,
   )
 }
@@ -154,21 +153,21 @@
   let img = image(src)
   let (width, height) = measure(img, styles)
 
-  let max-image-width = VISIBLE_WIDTH - ROOT_EM * 8
-  let max-image-height = VISIBLE_HEIGHT / 2 - ROOT_EM * 8
+  let max-image-width = VISIBLE_WIDTH / 2 - ROOT_EM * 4
+  let max-image-height = VISIBLE_HEIGHT / 4 - ROOT_EM * 4
 
   if width / height > max-image-width / max-image-height {
     set image(width: calc.min(width, max-image-width))
 
-    v(.8em)
+    v(.2em)
     align(center, img)
-    v(.8em)
+    v(.2em)
   } else {
     set image(height: calc.min(height, max-image-height))
 
-    v(.8em)
+    v(.2em)
     align(center, img)
-    v(.8em)
+    v(.2em)
   }
   // BEGIN trigonometric solution
   // let hori = VISIBLE_WIDTH.pt()
@@ -216,18 +215,12 @@
   }
 })
 
-#let links-grid(..content) = {
-  set text(9pt)
-  set par(leading: .5em)
-
-  grid(columns: (1fr, .75in, 1fr, .5in), rows: .5in, ..content)
-}
-#let links-cell(content) = block(width: 100%, height: 100%, align(horizon, content))
-#let qrcode(arg) = tiaoma.qrcode(arg, width: .4in)
+// compact
+#let links-grid(..content) = none
+#let links-cell(content) = none
+#let qrcode(arg) = none
 
 #let tablex-custom(columns: (), aligns: (), ..cells) = {
-  set text(9pt)
-
   align(
     center,
     block(
@@ -256,7 +249,9 @@
     panic("#tabbed receives exactly two content blocks")
   }
 
-  block[
+  if items.at(0) == [Python] or items.at(0) == [Java] {
+    none
+  } else [#block[
     #block(
       width: 100%,
       fill: luma(85%),
@@ -286,5 +281,5 @@
     } else {
       items.at(1)
     }
-  ]
+  ]]
 }

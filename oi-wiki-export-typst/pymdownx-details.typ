@@ -67,12 +67,12 @@
         x: 1pt + color.dark
       ),
       below: 0em,
-      inset: (x: 1em, y: .5em),
+      inset: (x: .5em, y: .3em),
       radius: (top: .2em),
     )[
       #show parbreak: []
 
-      #box(height: 1.25em, baseline: .25em, icon)
+      #box(height: 1.1em, baseline: .15em, icon)
       #h(.5em)
       #strong(items.at(0))
     ]
@@ -86,7 +86,7 @@
           x: 1pt + color.dark
         ),
         above: 0em,
-        inset: (x: 1em, y: .5em),
+        inset: (x: .5em, y: .4em),
         radius: (bottom: .2em),
 
         items.at(1)

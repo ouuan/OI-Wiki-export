@@ -16,19 +16,23 @@
 #set page(
   header: none,
   paper: "a4",
-  margin: (top: .8in, inside: .4in, bottom: .7in, outside: .6in),
-  header-ascent: .3in,
+  margin: (top: .5in, inside: .3in, bottom: .3in, outside: .3in),
+  header-ascent: .1in,
+  columns: 2,
   fill: luma(95%),
 )
 
+#set columns(gutter: 5pt)
+
 #align(center + horizon)[
+  #set page(columns: 1)
   // OI-Wiki logo
   #image.decode("<svg viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 3 1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82Z\"></path></svg>", height: 4cm)
   #text(
     25pt,
     font: ("New Computer Modern", "Noto Serif CJK SC"),
     weight: 700,
-  )[OI Wiki (Beta)]
+  )[OI Wiki (Compact, Beta)]
   #v(4cm)
   #text(
     18pt,
@@ -60,7 +64,7 @@
 )
 
 #set par(
-  leading: .8em,
+  leading: .25em,
   // HACK: CJK-style first line indent is still in progress
   // we are currently using JS build tools to solve this
   // issues: https://github.com/typst/typst/issues/311
@@ -68,7 +72,7 @@
   // first-line-indent: 2em,
 )
 
-#set block(spacing: .8em)
+#set block(spacing: .25em)
 
 #set strong(delta: 0)
 #show strong: set text(
@@ -87,24 +91,23 @@
   font: ("New Computer Modern", "Noto Sans CJK SC"),
   weight: 551,
 )
-#show heading.where(level: 1): set text(25pt)
-#show heading.where(level: 2): set text(20pt)
-#show heading.where(level: 3): set text(17pt)
-#show heading.where(level: 4): set text(14pt)
-#show heading.where(level: 5): set text(12pt)
-#show heading.where(level: 6): set text(10pt)
+#show heading.where(level: 1): set text(1.5em)
+#show heading.where(level: 2): set text(1.4em)
+#show heading.where(level: 3): set text(1.3em)
+#show heading.where(level: 4): set text(1.2em)
+#show heading.where(level: 5): set text(1.1em)
+#show heading.where(level: 6): set text(1em)
 #show heading: it => {
   // NOTE: dynamic spacing?
   // v(1fr, weak: true)
-  v(1.4em)
-  it
   v(.2em)
+  it
+  v(.1em)
 }
 #show heading.where(level: 2): it => {
-  v(2em)
   align(center)[#it]
-  v(2em)
 }
+#show heading.where(body: [外部参考资料]): none
 
 #show emph: set text(
   font: ("New Computer Modern", "LXGW Wenkai")
@@ -128,11 +131,12 @@
 #show outline.entry.where(
   level: 1
 ): it => {
-  v(20pt, weak: true)
-  text(14pt)[#strong(it)]
+  v(0.7em, weak: true)
+  text(1.2em)[#strong(it)]
+  v(-0.5em, weak: true)
 }
 
-#outline(indent: auto)
+#outline(title: none, indent: auto)
 /* END outline */
 
 /* BEGIN main */
@@ -154,7 +158,7 @@
 
   align(horizon)[
     第#counter(heading).display("一")章
-
+    #v(10pt)
     #it.body
   ]
 }
@@ -181,27 +185,19 @@
 #show enum: set block(width: 100%)
 
 #set ref(supplement: el => [#el.body→#h(-.333em)])
-#show ref: set text(fill: cmyk(0%, 100%, 100%, 0%))
-
-#show footnote.entry: it => {
-  set text(9pt)
-  show parbreak: none
-  it
+#show ref: it => {
+  set text(fill: cmyk(0%, 100%, 100%, 0%))
+  if query(it.target).len() > 0 {
+    it
+  } else {
+    "[??]"
+  }
 }
+
+// compact
+#show super: none
+#show footnote.entry: set text(0pt)
+#set footnote.entry(separator: none, clearance: 0pt, gap: 0pt, indent: 0pt)
 
 #include "includes.typ"
 /* END main */
-
-/* BEGIN back cover */
-#pagebreak(to: "odd")
-
-#set page(
-  header: none,
-  fill: luma(95%),
-)
-
-#align(
-  center + horizon,
-  text(17pt)[https://oi-wiki.org]
-)
-/* END back cover */
